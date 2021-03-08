@@ -1,6 +1,8 @@
 package my_project.control;
 
 import KAGO_framework.control.ViewController;
+import my_project.model.AlternativeParser;
+import my_project.model.AlternativeScanner;
 import my_project.model.KnebiParser;
 import my_project.view.MainGUI;
 
@@ -18,6 +20,7 @@ public class ProgramController {
     // Referenzen
     private ViewController viewController;  // diese Referenz soll auf ein Objekt der Klasse viewController zeigen. Über dieses Objekt wird das Fenster gesteuert.
     private KnebiParser knebiParser;
+    private AlternativeParser alternativeParser;
 
     /**
      * Konstruktor
@@ -40,7 +43,7 @@ public class ProgramController {
         viewController.getSoundController().loadSound("assets/nonono.mp3","no",false);
         knebiParser = new KnebiParser();
         // todo Eigener Code
-
+        alternativeParser = new AlternativeParser();
 
     }
 
@@ -56,8 +59,9 @@ public class ProgramController {
                 return knebiParser.parse(input);
             // todo Hier können weitere Parser aufgeführt werden
             case 1:
-                return knebiParser.parse(input);
-
+                return alternativeParser.parse(input);
+            case 2:
+                return alternativeParser.contextFreeParse(input);
             default: System.out.println("\nDebug-Info: Für diesen Index ist kein Parser definiert!");
         }
         return false;
@@ -77,8 +81,11 @@ public class ProgramController {
                 return result;
             // todo Hier können weitere Scanner aufgeführt werden.
             case 1:
-                return knebiParser.getScannerResult(input);
-
+                boolean r2 = alternativeParser.getScannerResult(input);
+                return r2;
+            case 2:
+                boolean r3 = alternativeParser.getContextFreeScannerResult(input);
+                return r3;
             default: System.out.println("\nDebug-Info: Für diesen Index ist kein Scanner definiert!");
         }
         return false;
